@@ -2,10 +2,11 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { ArtistComponent } from '../artist-component/artist-component';
 import { Artist } from '../artist';
 import { ArtistsService } from '../artists.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-artists-component',
-  imports: [ArtistComponent],
+  imports: [ArtistComponent, RouterModule],
   templateUrl: './artists-component.html',
   styleUrl: './artists-component.scss',
 })

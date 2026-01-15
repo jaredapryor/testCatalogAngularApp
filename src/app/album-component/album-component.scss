@@ -14,7 +14,7 @@
 }
 
 .album-section.darker {
-    background-color: #808080;
+    background-color: #9E9E9E;
     border-radius: 10px 10px 10px 10px;
 }
 
@@ -146,8 +146,17 @@
     margin-bottom: 5px;
 }
 
+.artists-and-albums-links {
+    margin-top: 10px;
+}
+
 .artists-link {
     color: #212121;
     font-weight: bold;
-    margin-top: 5px;
+}
+
+.albums-link {
+    color: #212121;
+    font-weight: bold;
+    margin-left: 10px;
 }

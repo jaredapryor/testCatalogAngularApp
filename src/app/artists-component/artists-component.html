@@ -1,5 +1,8 @@
 <div class="artists-section">
-    <h2>Number of Artists: {{ numberOfArtists() }}</h2>
+     <div class="artists-section-title">
+        <h2>Number of Artists: {{ numberOfArtists() }}</h2>
+        <a routerLink="/albums" class="all-albums-link"><b>View All Albums</b></a>
+    </div>
     <div class="artists-container" style="margin-top: 10px;">
         @for (artist of artists; track artist.artistId) {
             <app-artist-component [artist]="artist" [condensed]=true />

@@ -2,10 +2,11 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { AlbumComponent } from '../album-component/album-component';
 import { ArtistsService } from '../artists.service';
 import { Album } from '../album';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-albums-component',
-  imports: [AlbumComponent],
+  imports: [AlbumComponent, RouterModule],
   templateUrl: './albums-component.html',
   styleUrl: './albums-component.scss',
 })

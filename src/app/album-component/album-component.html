@@ -38,7 +38,10 @@
     <div class="album-full-section">
         <div style="display: flex; flex-direction: column;">
             <img class="album-cd-image-large" [src]="albumImageSrc" />
-            <a class="artists-link" routerLink="/artists">All Artists</a>
+            <span class="artists-and-albums-links">
+                <a class="artists-link" routerLink="/artists">All Artists</a>
+                <a class="albums-link" routerLink="/albums">All Albums</a>
+            </span>
         </div>
         <div class="album-details">
             <div class="album-name-large">{{ finalAlbum.albumName }}</div>

@@ -5,6 +5,17 @@
     margin-bottom: 10px;
 }
 
+.albums-section-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.all-artists-link {
+    margin-left: 20px;
+    font-size: x-large;
+}
+
 .albums-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
