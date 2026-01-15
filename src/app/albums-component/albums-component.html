@@ -1,0 +1,12 @@
+<div class="albums-section">
+    <h2>Number of Albums: {{ numberOfAlbums() }}</h2>
+    <div class="albums-container">
+        @for (album of albums; track album.globalAlbumId) {
+            <app-album-component
+                [album]="album"
+                albumClassOverride="darker"
+                [condensed]=true
+                [showArtistName]=true />
+        }
+    </div>
+</div>

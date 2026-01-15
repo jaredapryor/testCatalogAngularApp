@@ -1,0 +1,71 @@
+@if (condensed && finalArtist !== undefined) {
+    <div class="artist-section">
+        <div class="artist-name">
+            <img class="artist-image" [src]="artistImageSrc" />
+            <div style="display: flex; flex-direction: column; align-items: start;">
+                <a [routerLink]="['/artists', finalArtist.artistId]">
+                    <h2 class="artist-name-text">{{ finalArtist.artistName }}</h2>
+                </a>                
+                <div style="display: flex; flex-direction: row; align-items: start;">
+                    <img class="artist-country-flag" [src]="artistCountryImageSrc" />
+                    <span class="artist-group-text">{{ finalArtist.isGroup ? 'Group' : 'Solo' }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="artist-details">
+            <div><b>Active since:</b> {{ finalArtist.yearStarted }}</div>
+            @if (finalArtist.isGroup) {
+                <div><b>Number of Group Members:</b> {{ finalArtist.numberOfMembers }}</div>
+            } @else {
+                <div><b>Solo Act</b></div>
+            }
+        </div>
+        @if (finalArtist.numberOfAlbumsReleased > 0) {
+            <div class="artist-albums-section">
+                <div class="artist-albums-section-title">Albums <b>{{ '(' + finalArtist.numberOfAlbumsReleased + ')' }}</b></div>
+                <div class="artist-albums-list">
+                    @for(album of finalArtist.albums; track album.albumId) {
+                        <a class="artist-album-name" [routerLink]="['/artists', finalArtist.artistId, album.albumId]">
+                            <span>{{ album.albumName + ' ' }}<i>{{ '(' + album.publicationYear  + ')' }}</i></span>
+                        </a>
+                    }
+                </div>
+            </div>
+        } 
+    </div>
+} @else if (finalArtist !== undefined) {
+    <div class="artist-section-large">
+        <img class="artist-image-large" [src]="artistImageSrc" />
+        <h1 class="artist-name-text-large">{{ finalArtist.artistName }}</h1> 
+        <div class="artist-details-large">
+            <div class="artist-section-country-row">
+                <img class="artist-country-flag-large" [src]="artistCountryImageSrc" />
+                <span><b>Country of Origin: {{ finalArtist.countryOfOrigin }}</b></span>
+            </div>
+            <div class="artist-section-large-space"><b>Active since:</b> {{ finalArtist.yearStarted }}</div>
+            @if (finalArtist.isGroup) {
+                <div class="artist-section-large-space"><b>Number of Group Members:</b> {{ finalArtist.numberOfMembers }}</div>
+            } @else {
+                <div class="artist-section-large-space"><b>Solo Act</b></div>
+            }
+            <div class="artist-section-large-space"><b>Released Albums:</b> {{ finalArtist.numberOfAlbumsReleased }}</div>
+        </div>        
+        @if (finalArtist.numberOfAlbumsReleased > 0) {
+            <div class="artist-albums-section-large">
+                <div class="artist-albums-section-title-row-large">
+                    <div class="artist-albums-section-title-large">Albums</div>
+                    <label class="switch">                
+                        <input type="checkbox" [checked]="showAlbums()" (change)="onShowAlbumsToggle($event)">                
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                @if (showAlbums()) {
+                    @for (album of finalArtist.albums; track album.albumId) {
+                        <app-album-component [album]="album" [sortedIndex]="$index" [condensed]=true />
+                    }
+                }
+            </div>
+        }
+        <a class="artists-link" routerLink="/artists">All Artists</a>
+    </div>
+}

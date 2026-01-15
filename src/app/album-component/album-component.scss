@@ -1,0 +1,153 @@
+.album-section {
+    padding: 10px 25px 10px 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.album-section.dark {
+    background-color: #9E9E9E;
+}
+
+.album-section.light {
+    background-color: #EFEFEF;
+}
+
+.album-section.darker {
+    background-color: #808080;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.album-full-section {
+    padding: 25px 25px 25px 25px;
+    background-color: #9E9E9E;
+    border-radius: 25px 25px 25px 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    font-size: larger;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.album-cd-image {
+    width: 96px;
+    height: 96px;
+    margin-right: 20px;
+    border-radius: 48px 48px 48px 48px;
+}
+
+.album-cd-image-large {
+    width: 384px;
+    height: 384px;
+    margin-right: 25px;
+    border-radius: 15px 15px 15px 15px;
+}
+
+.album-details {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.album-details-first-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.album-name {
+    font-weight: 700;
+    font-size: x-large;
+}
+
+.album-name-large {
+    font-weight: bolder;
+    font-size: xx-large;
+    font-variant: small-caps;
+    margin-bottom: 10px;
+}
+
+.album-year-label {
+    font-style: italic;
+    color: #212121;
+}
+
+.album-year-label.space {
+    margin-bottom: 5px;
+}
+
+.album-streaming {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5px;
+}
+
+.album-streaming-image {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+}
+
+.album-details-second-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.album-details-third-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.album-details-fourth-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.album-cert-image {
+    height: 32px;
+    margin-left: 10px;
+}
+
+.album-cert-image-large {
+    height: 64px;
+    margin-right: 10px;
+}
+
+.album-details-fifth-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.album-details-cert-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.album-details-streaming-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.album-details-cert-text {
+    font-size: x-large;
+    margin-bottom: 5px;
+}
+
+.album-details-line-space {
+    margin-bottom: 5px;
+}
+
+.artists-link {
+    color: #212121;
+    font-weight: bold;
+    margin-top: 5px;
+}

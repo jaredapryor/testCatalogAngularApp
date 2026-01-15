@@ -1,0 +1,201 @@
+.artist-section {
+    padding: 10px 20px 20px 20px;
+    background-color: #D0D0D0;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.artist-section-large {
+    padding: 25px 25px 25px 25px;
+    background-color: #D0D0D0;
+    border-radius: 15px 15px 15px 15px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.artist-section-large-space {
+    margin-bottom: 5px;
+}
+
+.artist-details-link {
+    color: #414141;
+    font-weight: bold;
+}
+
+.artists-link {
+    color: #414141;
+    font-weight: bold;
+}
+
+.artist-name {
+    display: flex;
+    color: #212121;
+    align-items: center;
+}
+
+.artist-image {
+    width: 96px;
+    height: 96px;
+    margin-right: 15px;
+}
+
+.artist-image-large {
+    width: 256px;
+    height: 256px;
+    margin-bottom: 5px;
+}
+
+.artist-name-text {
+    font-weight: bold;
+    font-variant: small-caps;
+    margin-bottom: 5px;
+}
+
+.artist-name-text-large {
+    font-weight: bold;
+    font-variant: small-caps;
+    margin-bottom: 20px;
+}
+
+.artist-country-flag {
+    width: 42px;
+    height: 28px;
+    margin-right: 10px;
+}
+
+.artist-country-flag-large {
+    width: 90px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.artist-group-text {
+    font-style: italic;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.artist-details {
+    margin-top: 10px;
+    color: #414141;
+}
+
+.artist-details-large {
+    margin-top: 10px;
+    color: #414141;
+    font-size: x-large;
+}
+
+.artist-albums-section {
+    margin-top: 5px;
+    color: #414141;
+}
+
+.artist-albums-section-large {
+    margin-top: 15px;
+    color: #212121;
+}
+
+.artist-albums-section-title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin-bottom: 5px;
+}
+
+.artist-albums-section-title {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.artist-albums-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.artist-album-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-albums-section-title-row-large {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.artist-albums-section-title-large {
+    font-weight: bold;
+    font-variant: small-caps;
+    font-size: 36px;
+    margin-right: 15px;
+}
+
+.artist-section-country-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #212121;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
