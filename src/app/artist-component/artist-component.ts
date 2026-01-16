@@ -21,6 +21,7 @@ export class ArtistComponent implements OnInit {
   protected finalArtist = signal<Artist | undefined>(undefined);
   protected showAlbums = signal(false);
   protected show404Img = signal(false);
+  protected artistErrorMsg = signal('');
   protected artistImageSrc: string = '';
   protected artistCountryImageSrc: string = '';
 
@@ -42,6 +43,7 @@ export class ArtistComponent implements OnInit {
       this.finalArtist.set(this.artist);
     } else if (this.artistId !== undefined) {
       this.artistsService.getArtistById(this.artistId).then((artist: Artist | undefined) => {
+        this.artistErrorMsg.set('');
         this.initializeArtist(artist);
         this.finalArtist.set(artist);
         
@@ -50,6 +52,10 @@ export class ArtistComponent implements OnInit {
         } else if (artist !== undefined && this.show404Img()) {
           this.show404Img.set(false);
         }
+      }).catch((e) => {
+        this.show404Img.set(false);
+        this.artistErrorMsg.set(e);
+        this.finalArtist.set(undefined);
       });
     }
   }

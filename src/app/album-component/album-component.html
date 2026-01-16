@@ -1,4 +1,5 @@
 @let albumObj = finalAlbum();
+@let errorMsg = albumErrorMsg();
 @if (condensed && albumObj !== undefined) {
     <div class="album-section" [class]="albumClass">
         <img class="album-cd-image" [src]="albumImageSrc" />
@@ -80,4 +81,11 @@
             <a class="albums-link" routerLink="/albums">All Albums</a>
         </span>
     </div>
+} @else if (errorMsg !== '') {
+    <h2 class="album-not-found-message">There was a Server Error trying to find Album Id {{ '(' + this.albumId + ')' }} and Artist Id {{ '(' + this.artistId + ')' }}!!</h2>
+    <h3 class="album-not-found-message">{{ errorMsg }}</h3>
+    <span class="artists-and-albums-links shift-right">
+        <a class="artists-link" routerLink="/artists">All Artists</a>
+        <a class="albums-link" routerLink="/albums">All Albums</a>
+    </span>    
 }

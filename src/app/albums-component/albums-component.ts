@@ -14,12 +14,27 @@ export class AlbumsComponent {
   artistsService: ArtistsService = inject(ArtistsService);
   protected numberOfAlbums = signal(0);
   protected albums = signal<Album[]>([]);
+  protected showNoAlbumsContent = signal(false);
+  protected albumsErrorMsg = signal('');
 
   constructor() {
     this.artistsService.getAllAlbums().then((albumsList: Album[]) => {
       albumsList.sort((a, b) => a.albumName.localeCompare(b.albumName));
       this.albums.set(albumsList);
       this.numberOfAlbums.set(albumsList.length);
+      this.albumsErrorMsg.set('');
+      this.udpateShowNoAlbumsContent(albumsList, this.showNoAlbumsContent());
+    }).catch((e) => {
+      this.albumsErrorMsg.set(e);
+      this.udpateShowNoAlbumsContent(this.albums(), this.showNoAlbumsContent());
     });
+  }
+
+  private udpateShowNoAlbumsContent(albumsList: Album[], currValue: boolean): void {
+    if (albumsList.length === 0 && !currValue) {
+      this.showNoAlbumsContent.set(true);
+    } else if (albumsList.length > 0 && currValue) {
+      this.showNoAlbumsContent.set(false);
+    }
   }
 }

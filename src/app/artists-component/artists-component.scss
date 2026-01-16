@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    color: #212121;
 }
 
 .all-albums-link {
@@ -22,4 +23,16 @@
     grid-auto-rows: 1fr;
     column-gap: 1%;
     row-gap: 2rem;
+}
+
+.no-artists-message {
+    color: #212121;
+}
+
+.no-albums-message-error {
+    color: #942828;
+}
+
+.all-albums-link-small {
+    color: #212121;
 }

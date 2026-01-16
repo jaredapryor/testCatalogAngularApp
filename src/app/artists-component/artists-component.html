@@ -9,5 +9,12 @@
                 <app-artist-component [artist]="artist" [condensed]=true />
             }
         </div>
+    } @else if (showNoArtistsContent()) {
+        <h2 class="no-artists-message">Can't find any Artists from the Server!!</h2>
+        @let errorMsg = artistsErrorMsg();
+        @if (errorMsg !== '') {
+            <h3 class="no-albums-message-error">{{ errorMsg }}</h3>
+        }
+        <a routerLink="/albums" class="all-albums-link-small"><b>View All Albums</b></a>
     }
 </div>

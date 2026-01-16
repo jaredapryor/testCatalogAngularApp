@@ -25,6 +25,7 @@ export class AlbumComponent implements OnInit {
   protected albumId: number | undefined = undefined;
   protected finalAlbum = signal<Album | undefined>(undefined);
   protected show404Img = signal(false);
+  protected albumErrorMsg = signal('');
   protected albumClass: string = 'dark';
   protected albumImageSrc: string = '';
   protected albumCertImageSrc: string = '';
@@ -58,6 +59,7 @@ export class AlbumComponent implements OnInit {
       this.finalAlbum.set(this.album);
     } else if (this.artistId !== undefined && this.albumId !== undefined) {
       this.artistsService.getAlbum(this.artistId, this.albumId).then((album: Album | undefined) => {
+        this.albumErrorMsg.set('');
         this.initializeAlbum(album);
         this.finalAlbum.set(album);
         if (album === undefined && !this.show404Img()) {
@@ -65,6 +67,10 @@ export class AlbumComponent implements OnInit {
         } else if (album !== undefined && this.show404Img()) {
           this.show404Img.set(false);
         }
+      }).catch((e) => {
+        this.show404Img.set(false);
+        this.albumErrorMsg.set(e);
+        this.finalAlbum.set(undefined);
       });
     }
   }
