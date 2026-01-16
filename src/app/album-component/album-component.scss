@@ -160,3 +160,24 @@
     font-weight: bold;
     margin-left: 10px;
 }
+
+.album-not-found-image {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 5px 5px 5px;
+}
+
+.album-not-found-image {
+    width: 750px;
+    height: 500px;
+}
+
+.album-not-found-message {
+    color: #942828;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.artists-and-albums-links.shift-right {
+    margin-left: 5px;
+}

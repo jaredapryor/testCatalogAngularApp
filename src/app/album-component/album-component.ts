@@ -21,9 +21,10 @@ export class AlbumComponent implements OnInit {
 
   artistsService: ArtistsService = inject(ArtistsService);
   route: ActivatedRoute = inject(ActivatedRoute);
-  artistId: number | undefined = undefined;
-  albumId: number | undefined = undefined;
+  protected artistId: number | undefined = undefined;
+  protected albumId: number | undefined = undefined;
   protected finalAlbum = signal<Album | undefined>(undefined);
+  protected show404Img = signal(false);
   protected albumClass: string = 'dark';
   protected albumImageSrc: string = '';
   protected albumCertImageSrc: string = '';
@@ -59,6 +60,11 @@ export class AlbumComponent implements OnInit {
       this.artistsService.getAlbum(this.artistId, this.albumId).then((album: Album | undefined) => {
         this.initializeAlbum(album);
         this.finalAlbum.set(album);
+        if (album === undefined && !this.show404Img()) {
+          this.show404Img.set(true);
+        } else if (album !== undefined && this.show404Img()) {
+          this.show404Img.set(false);
+        }
       });
     }
   }

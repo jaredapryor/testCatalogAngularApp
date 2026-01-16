@@ -209,3 +209,24 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.artist-not-found-image {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 5px 5px 5px;
+}
+
+.artist-not-found-image {
+    width: 750px;
+    height: 500px;
+}
+
+.artist-not-found-message {
+    color: #942828;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.artists-and-albums-links.shift-right {
+    margin-left: 5px;
+}

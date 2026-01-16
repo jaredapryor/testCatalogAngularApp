@@ -17,9 +17,10 @@ export class ArtistComponent implements OnInit {
 
   artistsService: ArtistsService = inject(ArtistsService);
   route: ActivatedRoute = inject(ActivatedRoute);
-  artistId: number | undefined = undefined;
+  protected artistId: number | undefined = undefined;
   protected finalArtist = signal<Artist | undefined>(undefined);
   protected showAlbums = signal(false);
+  protected show404Img = signal(false);
   protected artistImageSrc: string = '';
   protected artistCountryImageSrc: string = '';
 
@@ -42,7 +43,13 @@ export class ArtistComponent implements OnInit {
     } else if (this.artistId !== undefined) {
       this.artistsService.getArtistById(this.artistId).then((artist: Artist | undefined) => {
         this.initializeArtist(artist);
-        this.finalArtist.set(artist);        
+        this.finalArtist.set(artist);
+        
+        if (artist === undefined && !this.show404Img()) {
+          this.show404Img.set(true);
+        } else if (artist !== undefined && this.show404Img()) {
+          this.show404Img.set(false);
+        }
       });
     }
   }

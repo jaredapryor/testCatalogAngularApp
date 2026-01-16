@@ -783,7 +783,7 @@ export class ArtistsService {
 
   async getAllArtists(): Promise<Artist[]> {
     const data = await fetch(this.artistsUrl);
-    return await data.json() ?? [];
+    return await data.status === 200 ? data.json() : [];
   }
 
   getAllArtistsLocal(): Artist[] {
@@ -792,7 +792,7 @@ export class ArtistsService {
 
   async getArtistById(id: number): Promise<Artist | undefined> {
     const data = await fetch (`${this.artistsUrl}/${id}`);
-    return await data.json() ?? {};
+    return await data.status === 200 ? data.json() : undefined;
   }
 
   getArtistByIdLocal(id: number): Artist | undefined {
@@ -801,7 +801,7 @@ export class ArtistsService {
 
   async getAllAlbums(): Promise<Album[]> {
     const data = await fetch(this.albumsUrl);
-    return await data.json() ?? [];
+    return await data.status === 200 ? data.json() : [];
   }
 
   getAllAlbumsLocal(): Album[] {
@@ -810,7 +810,7 @@ export class ArtistsService {
 
   async getAlbum(artistId: number, albumId: number): Promise<Album | undefined> {
     const data = await fetch(`${this.artistsUrl}/${artistId}/${albumId}`);
-    return await data.json() ?? {};
+    return await data.status === 200 ? data.json() : undefined;
   }
 
   getAlbumLocal(artistId: number, albumId: number): Album | undefined {

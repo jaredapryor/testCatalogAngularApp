@@ -72,4 +72,13 @@
             <a class="albums-link" routerLink="/albums">All Albums</a>
         </span>
     </div>
+} @else if (show404Img()) {
+    <div class="artist-not-found-image">
+        <img class="artist-not-found-image" src="./assets/404/artistNotFound.png" />
+        <h2 class="artist-not-found-message">Artist Id {{ '(' + this.artistId + ')' }} wasn't found!!</h2>                    
+        <span class="artists-and-albums-links shift-right">
+            <a class="artists-link" routerLink="/artists">All Artists</a>
+            <a class="albums-link" routerLink="/albums">All Albums</a>
+        </span>
+    </div>
 }
