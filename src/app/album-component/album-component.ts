@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Album } from '../album';
 import { RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import { ArtistsService } from '../artists.service';
   templateUrl: './album-component.html',
   styleUrl: './album-component.scss',
 })
-export class AlbumComponent {
+export class AlbumComponent implements OnInit {
   @Input() album: Album | undefined = undefined;
   @Input() artistIdNum: number = 0;
   @Input() sortedIndex: number = 0;
@@ -23,7 +23,7 @@ export class AlbumComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   artistId: number | undefined = undefined;
   albumId: number | undefined = undefined;
-  protected finalAlbum: Album | undefined;
+  protected finalAlbum = signal<Album | undefined>(undefined);
   protected albumClass: string = 'dark';
   protected albumImageSrc: string = '';
   protected albumCertImageSrc: string = '';
@@ -44,8 +44,7 @@ export class AlbumComponent {
   ngOnInit() {
     if (this.albumClassOverride !== '') {
       this.albumClass = this.albumClassOverride;
-    }    
-    else {
+    } else {
       if (this.sortedIndex % 2 == 1) {
         this.albumClass = 'dark';
       } else {
@@ -54,13 +53,19 @@ export class AlbumComponent {
     }
 
     if (this.album !== undefined) {
-      this.finalAlbum = this.album;
+      this.initializeAlbum(this.album);
+      this.finalAlbum.set(this.album);
     } else if (this.artistId !== undefined && this.albumId !== undefined) {
-      this.finalAlbum = this.artistsService.getAlbum(this.artistId, this.albumId);
+      this.artistsService.getAlbum(this.artistId, this.albumId).then((album: Album | undefined) => {
+        this.initializeAlbum(album);
+        this.finalAlbum.set(album);
+      });
     }
+  }
 
-    if (this.finalAlbum !== undefined) {
-      switch (this.finalAlbum.certification) {
+  private initializeAlbum(album: Album | undefined): void {
+    if (album !== undefined) {
+      switch (album.certification) {
         case 'None': {
           this.albumCertImageSrc = './assets/records/blackRecord.png';
           this.albumCertImageDesc = 'No certifications';
@@ -93,7 +98,7 @@ export class AlbumComponent {
         }
       }
 
-      const albumImageNum = Math.floor(this.finalAlbum.albumImageRandNum * 20) + 1;
+      const albumImageNum = Math.floor(album.albumImageRandNum * 20) + 1;
       this.albumImageSrc = `./assets/album-covers/albumcover${albumImageNum}.png`;
     }
   }

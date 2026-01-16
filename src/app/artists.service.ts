@@ -6,6 +6,9 @@ import { Album } from './album';
   providedIn: 'root',
 })
 export class ArtistsService {
+  private artistsUrl = 'http://localhost:3000/artists';
+  private albumsUrl = 'http://localhost:3000/albums';
+
   protected artistsList: Artist[] = [
     {
       "artistId": 1,
@@ -778,19 +781,39 @@ export class ArtistsService {
 
   constructor() { }
 
-  getAllArtists(): Artist[] {
+  async getAllArtists(): Promise<Artist[]> {
+    const data = await fetch(this.artistsUrl);
+    return await data.json() ?? [];
+  }
+
+  getAllArtistsLocal(): Artist[] {
     return this.artistsList;
   }
 
-  getArtistById(id: number): Artist | undefined {
+  async getArtistById(id: number): Promise<Artist | undefined> {
+    const data = await fetch (`${this.artistsUrl}/${id}`);
+    return await data.json() ?? {};
+  }
+
+  getArtistByIdLocal(id: number): Artist | undefined {
     return this.artistsList.find(artist => artist.artistId === id);
   }
 
-  getAllAlbums(): Album[] {
+  async getAllAlbums(): Promise<Album[]> {
+    const data = await fetch(this.albumsUrl);
+    return await data.json() ?? [];
+  }
+
+  getAllAlbumsLocal(): Album[] {
     return this.albumsList;
   }
 
-  getAlbum(artistId: number, albumId: number): Album | undefined {
+  async getAlbum(artistId: number, albumId: number): Promise<Album | undefined> {
+    const data = await fetch(`${this.artistsUrl}/${artistId}/${albumId}`);
+    return await data.json() ?? {};
+  }
+
+  getAlbumLocal(artistId: number, albumId: number): Album | undefined {
     const artist = this.artistsList.find(artist => artist.artistId === artistId);
     if (artist !== undefined) {
       return artist.albums.find(album => album.albumId === albumId);

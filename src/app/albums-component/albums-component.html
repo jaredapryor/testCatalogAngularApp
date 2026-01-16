@@ -1,15 +1,17 @@
 <div class="albums-section">
-    <div class="albums-section-title">
-        <h2>Number of Albums: {{ numberOfAlbums() }}</h2>
-        <a routerLink="/artists" class="all-artists-link"><b>View All Artists</b></a>
-    </div>
-    <div class="albums-container">
-        @for (album of albums; track album.globalAlbumId) {
-            <app-album-component
-                [album]="album"
-                albumClassOverride="darker"
-                [condensed]=true
-                [showArtistName]=true />
-        }
-    </div>
+    @if (numberOfAlbums() > 0) {
+        <div class="albums-section-title">
+            <h2>Number of Albums: {{ numberOfAlbums() }}</h2>
+            <a routerLink="/artists" class="all-artists-link"><b>View All Artists</b></a>
+        </div>
+        <div class="albums-container">
+            @for (album of albums(); track album.globalAlbumId) {
+                <app-album-component
+                    [album]="album"
+                    albumClassOverride="darker"
+                    [condensed]=true
+                    [showArtistName]=true />
+            }
+        </div>
+    }
 </div>

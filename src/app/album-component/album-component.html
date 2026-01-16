@@ -1,12 +1,13 @@
-@if (condensed && finalAlbum !== undefined) {
+@let albumObj = finalAlbum();
+@if (condensed && albumObj !== undefined) {
     <div class="album-section" [class]="albumClass">
         <img class="album-cd-image" [src]="albumImageSrc" />
         <div class="album-details">
             <div class="album-details-first-line">
-                <a [routerLink]="['/artists', finalAlbum.artistId, finalAlbum.albumId]">
-                    <span class="album-name">{{ finalAlbum.albumName }}</span>
+                <a [routerLink]="['/artists', albumObj.artistId, albumObj.albumId]">
+                    <span class="album-name">{{ albumObj.albumName }}</span>
                 </a>
-                @if (finalAlbum.availableOnStreaming) {
+                @if (albumObj.availableOnStreaming) {
                     <div class="album-streaming">
                         <img class="album-streaming-image" src="./assets/streaming/spotify.png" />
                         <img class="album-streaming-image" src="./assets/streaming/apple-music.png" />
@@ -16,25 +17,25 @@
             </div>
             @if (showArtistName) {
                 <div class="album-details-second-line">
-                    <a [routerLink]="['/artists', finalAlbum.artistId]">
-                        <b>{{ finalAlbum.artistName }}</b>
+                    <a [routerLink]="['/artists', albumObj.artistId]">
+                        <b>{{ albumObj.artistName }}</b>
                     </a>
                 </div>
             }
             <div class="album-details-third-line">
-                <span class="album-year-label"><b>{{ finalAlbum.recordLabel + ' (' + finalAlbum.publicationYear + ')' }}</b></span>
+                <span class="album-year-label"><b>{{ albumObj.recordLabel + ' (' + albumObj.publicationYear + ')' }}</b></span>
             </div>
             <div class="album-details-fourth-line">
-                <span><b>{{ finalAlbum.albumsSold | number }} albums sold</b></span>
+                <span><b>{{ albumObj.albumsSold | number }} albums sold</b></span>
                 <img class="album-cert-image" [title]="albumCertImageDesc" [src]="albumCertImageSrc" />
             </div>
             <div class="album-details-fifth-line">
-                <span><b><i>Num Tracks: </i></b>{{ finalAlbum.numberOfTracks }}</span>
-                <span><b><i>, Num Singles: </i></b>{{ finalAlbum.numberOfSingles }}</span>
+                <span><b><i>Num Tracks: </i></b>{{ albumObj.numberOfTracks }}</span>
+                <span><b><i>, Num Singles: </i></b>{{ albumObj.numberOfSingles }}</span>
             </div>
         </div>
     </div>
-} @else if (finalAlbum !== undefined) {
+} @else if (albumObj !== undefined) {
     <div class="album-full-section">
         <div style="display: flex; flex-direction: column;">
             <img class="album-cd-image-large" [src]="albumImageSrc" />
@@ -44,8 +45,8 @@
             </span>
         </div>
         <div class="album-details">
-            <div class="album-name-large">{{ finalAlbum.albumName }}</div>
-            @if (finalAlbum.availableOnStreaming) {
+            <div class="album-name-large">{{ albumObj.albumName }}</div>
+            @if (albumObj.availableOnStreaming) {
                 <div class="album-details-streaming-line">
                     <span style="margin-right: 5px;">Streaming on</span>
                     <div class="album-streaming">
@@ -55,14 +56,14 @@
                     </div>
                 </div>
             }
-            <a [routerLink]="['/artists', finalAlbum.artistId]" class="album-details-line-space">
-                <b>{{ finalAlbum.artistName }}</b>
+            <a [routerLink]="['/artists', albumObj.artistId]" class="album-details-line-space">
+                <b>{{ albumObj.artistName }}</b>
             </a>
-            <div class="album-year-label space"><b>{{ finalAlbum.recordLabel + ' (' + finalAlbum.publicationYear + ')' }}</b></div>
-            <div class="album-details-line-space"><b>{{ finalAlbum.albumsSold | number }} albums sold</b></div>
+            <div class="album-year-label space"><b>{{ albumObj.recordLabel + ' (' + albumObj.publicationYear + ')' }}</b></div>
+            <div class="album-details-line-space"><b>{{ albumObj.albumsSold | number }} albums sold</b></div>
             <div class="album-details-line-space">
-                <span><b><i>Number of Tracks: </i></b>{{ finalAlbum.numberOfTracks }}</span>
-                <span><b><i>, Number of Singles: </i></b>{{ finalAlbum.numberOfSingles }}</span>
+                <span><b><i>Number of Tracks: </i></b>{{ albumObj.numberOfTracks }}</span>
+                <span><b><i>, Number of Singles: </i></b>{{ albumObj.numberOfSingles }}</span>
             </div>
             <div class="album-details-cert-line">
                 <img class="album-cert-image-large" [src]="albumCertImageSrc" />

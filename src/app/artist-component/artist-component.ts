@@ -18,10 +18,10 @@ export class ArtistComponent implements OnInit {
   artistsService: ArtistsService = inject(ArtistsService);
   route: ActivatedRoute = inject(ActivatedRoute);
   artistId: number | undefined = undefined;
-  protected finalArtist: Artist | undefined;
+  protected finalArtist = signal<Artist | undefined>(undefined);
+  protected showAlbums = signal(false);
   protected artistImageSrc: string = '';
   protected artistCountryImageSrc: string = '';
-  protected showAlbums = signal(false);
 
   constructor() {
     const idParam = this.route.snapshot.params['artistId'];
@@ -37,23 +37,29 @@ export class ArtistComponent implements OnInit {
 
   ngOnInit() {
     if (this.artist !== undefined) {
-      this.finalArtist = this.artist;
+      this.initializeArtist(this.artist);
+      this.finalArtist.set(this.artist);
     } else if (this.artistId !== undefined) {
-      this.finalArtist = this.artistsService.getArtistById(this.artistId);
+      this.artistsService.getArtistById(this.artistId).then((artist: Artist | undefined) => {
+        this.initializeArtist(artist);
+        this.finalArtist.set(artist);        
+      });
     }
+  }
 
-    if (this.finalArtist !== undefined) {
-      this.finalArtist.albums.sort((a, b) => b.publicationYear - a.publicationYear);
+  private initializeArtist(artist: Artist | undefined): void {
+    if (artist !== undefined) {
+      artist.albums.sort((a, b) => b.publicationYear - a.publicationYear);
 
-      if (this.finalArtist.isGroup) {
-        const groupImageNum = Math.floor(this.finalArtist.artistImageRandNum * 5) + 1;
+      if (artist.isGroup) {
+        const groupImageNum = Math.floor(artist.artistImageRandNum * 5) + 1;
         this.artistImageSrc = `./assets/people/group${groupImageNum}.png`;
       } else {
-        const personImageNum = Math.floor(this.finalArtist.artistImageRandNum * 7) + 1;
+        const personImageNum = Math.floor(artist.artistImageRandNum * 7) + 1;
         this.artistImageSrc = `./assets/people/person${personImageNum}.png`;
       }
 
-      switch (this.finalArtist.countryOfOrigin) {
+      switch (artist.countryOfOrigin) {
         case "USA": {
           this.artistCountryImageSrc = './assets/flags/US.svg'
           break;
