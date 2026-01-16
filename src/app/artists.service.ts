@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
 import { Artist } from './artist';
 import { Album } from './album';
 
@@ -6,8 +7,8 @@ import { Album } from './album';
   providedIn: 'root',
 })
 export class ArtistsService {
-  private artistsUrl = 'http://localhost:3000/artists';
-  private albumsUrl = 'http://localhost:3000/albums';
+  private artistsUrl = `${environment.apiUrl}/artists`;
+  private albumsUrl = `${environment.apiUrl}/albums`;
 
   protected artistsList: Artist[] = [
     {
