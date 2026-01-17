@@ -26,8 +26,17 @@ export const routes: Routes = [
         title: 'Album'
     },
     {
+        path: 'albums/:globalAlbumId',
+        component: AlbumComponent,
+        title: 'Album'
+    },
+    {
         path: '',
         redirectTo: '/artists',
         pathMatch: 'full'
+    },
+    {
+        path: '**',
+        redirectTo: '/artists'
     }
 ];

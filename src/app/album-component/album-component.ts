@@ -23,6 +23,7 @@ export class AlbumComponent implements OnInit {
   route: ActivatedRoute = inject(ActivatedRoute);
   protected artistId: number | undefined = undefined;
   protected albumId: number | undefined = undefined;
+  protected globalAlbumId: number | undefined = undefined;
   protected finalAlbum = signal<Album | undefined>(undefined);
   protected show404Img = signal(false);
   protected albumErrorMsg = signal('');
@@ -40,6 +41,11 @@ export class AlbumComponent implements OnInit {
     const albumIdParam = this.route.snapshot.params['albumId'];
     if (albumIdParam !== null && albumIdParam !== undefined) {
       this.albumId = Number(albumIdParam);
+    }
+
+    const globalAlbumIdParam = this.route.snapshot.params['globalAlbumId'];
+    if (globalAlbumIdParam !== null && globalAlbumIdParam !== undefined) {
+      this.globalAlbumId = Number(globalAlbumIdParam);
     }
   }
 
@@ -68,6 +74,21 @@ export class AlbumComponent implements OnInit {
           this.show404Img.set(false);
         }
       }).catch((e) => {
+        this.show404Img.set(false);
+        this.albumErrorMsg.set(e);
+        this.finalAlbum.set(undefined);
+      });
+    } else if (this.globalAlbumId !== undefined) {
+      this.artistsService.getAlbumGlobal(this.globalAlbumId).then((album: Album | undefined) => {
+        this.albumErrorMsg.set('');
+        this.initializeAlbum(album);
+        this.finalAlbum.set(album);
+        if (album === undefined && !this.show404Img()) {
+          this.show404Img.set(true);
+        } else if (album !== undefined && this.show404Img()) {
+          this.show404Img.set(false);
+        }
+      }).catch ((e) => {
         this.show404Img.set(false);
         this.albumErrorMsg.set(e);
         this.finalAlbum.set(undefined);

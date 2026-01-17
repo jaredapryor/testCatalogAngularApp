@@ -822,4 +822,13 @@ export class ArtistsService {
       return undefined;
     }
   }
+
+  async getAlbumGlobal(globalAlbumId: number): Promise<Album | undefined> {
+    const data = await fetch (`${this.albumsUrl}/${globalAlbumId}`);
+    return await data.status === 200 ? data.json() : undefined;
+  }
+
+  getAlbumGlobalLocal(globalAlbumId: number): Album | undefined {
+    return this.albumsList.find(album => album.globalAlbumId === globalAlbumId);
+  }
 }
