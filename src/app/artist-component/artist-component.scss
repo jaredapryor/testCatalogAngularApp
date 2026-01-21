@@ -22,21 +22,6 @@
     font-weight: bold;
 }
 
-.artists-and-albums-links {
-    margin-top: 5px;
-}
-
-.artists-link {
-    color: #414141;
-    font-weight: bold;
-}
-
-.albums-link {
-    color: #212121;
-    font-weight: bold;
-    margin-left: 10px;
-}
-
 .artist-name {
     display: flex;
     color: #212121;
@@ -225,8 +210,4 @@ input:checked + .slider:before {
     color: #942828;
     margin-left: 5px;
     margin-bottom: 10px;
-}
-
-.artists-and-albums-links.shift-right {
-    margin-left: 5px;
 }

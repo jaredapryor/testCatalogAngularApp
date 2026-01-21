@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, signal, inject } from '@angular/core';
+import { Component, Input, OnInit, signal, computed, inject } from '@angular/core';
 import { AlbumComponent } from '../album-component/album-component';
 import { Artist } from '../artist';
+import { Album } from '../album';
+import { AlbumDeleteInfo } from '../deletion';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistsService } from '../artists.service';
@@ -19,6 +21,15 @@ export class ArtistComponent implements OnInit {
   route: ActivatedRoute = inject(ActivatedRoute);
   protected artistId: number | undefined = undefined;
   protected finalArtist = signal<Artist | undefined>(undefined);
+  protected finalAlbums = signal<Album[] | undefined>(undefined);
+  protected finalNumberOfAlbums = computed(() => {
+    const fAlbums = this.finalAlbums();
+    if (fAlbums !== undefined) {
+      return fAlbums.length;
+    } else {
+      return 0;
+    }
+   });
   protected showAlbums = signal(false);
   protected show404Img = signal(false);
   protected artistErrorMsg = signal('');
@@ -41,11 +52,13 @@ export class ArtistComponent implements OnInit {
     if (this.artist !== undefined) {
       this.initializeArtist(this.artist);
       this.finalArtist.set(this.artist);
+      this.finalAlbums.set(this.artist.albums);
     } else if (this.artistId !== undefined) {
       this.artistsService.getArtistById(this.artistId).then((artist: Artist | undefined) => {
         this.artistErrorMsg.set('');
         this.initializeArtist(artist);
         this.finalArtist.set(artist);
+        this.finalAlbums.set(artist?.albums);
         
         if (artist === undefined && !this.show404Img()) {
           this.show404Img.set(true);
@@ -56,7 +69,31 @@ export class ArtistComponent implements OnInit {
         this.show404Img.set(false);
         this.artistErrorMsg.set(e);
         this.finalArtist.set(undefined);
+        this.finalAlbums.set(undefined);
       });
+    }
+  }
+
+  protected albumDeleted(info: AlbumDeleteInfo): void {
+    const artist = this.finalArtist();
+    if (artist !== undefined && info.artistId !== null && artist.artistId === info.artistId) {
+      const albums = this.finalAlbums();
+      const iArtistId = info.artistId;
+      if (albums !== undefined && info.albumId !== undefined && info.globalAlbumId !== undefined) {
+        const iAlbumId = info.albumId;
+        const iGlobalAlbumId = info.globalAlbumId;
+        const index = albums.findIndex(a => a.albumId === iAlbumId && a.globalAlbumId === iGlobalAlbumId && a.artistId === iArtistId);
+        if (index !== -1) {
+          const firstPartAlbums = albums.slice(0, index);
+          const secondPartAlbums = albums.slice(index + 1);
+          const newAlbums = [...firstPartAlbums, ...secondPartAlbums];
+
+          newAlbums.sort((a, b) => b.publicationYear - a.publicationYear);
+          this.finalAlbums.set(newAlbums);
+
+          // TODO: Need to modify the sort index so that the background changes appropriately
+        }
+      }
     }
   }
 

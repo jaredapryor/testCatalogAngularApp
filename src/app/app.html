@@ -1,7 +1,13 @@
 <main>
     <header class="records-title-header">
         <img class="records-title-image" src="./assets/records/recordsCollection.png" />
-        <h1 class="records-title">{{ title() }}</h1>
+        <div class="title-and-links-section">
+            <h1 class="records-title">{{ title() }}</h1>
+            <nav class="header-links">
+                <a class="artists-link" routerLink="/artists" routerLinkActive="active-link">All Artists</a>
+                <a class="albums-link" routerLink="/albums" routerLinkActive="active-link">All Albums</a>
+            </nav>
+        </div>
     </header>
     <div>
         <router-outlet></router-outlet>        

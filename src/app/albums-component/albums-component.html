@@ -2,7 +2,6 @@
     @if (numberOfAlbums() > 0) {
         <div class="albums-section-title">
             <h2>Number of Albums: {{ numberOfAlbums() }}</h2>
-            <a routerLink="/artists" class="all-artists-link"><b>View All Artists</b></a>
         </div>
         <div class="albums-container">
             @for (album of albums(); track album.globalAlbumId) {
@@ -10,7 +9,9 @@
                     [album]="album"
                     albumClassOverride="darker"
                     [condensed]=true
-                    [showArtistName]=true />
+                    [showArtistName]=true
+                    [showActions]=false
+                    [useDeleteOnArtist]=false />
             }
         </div>
     } @else if (showNoAlbumsContent()) {
@@ -19,6 +20,5 @@
         @if (errorMsg !== '') {
             <h3 class="no-albums-message-error">{{ errorMsg }}</h3>
         }
-        <a routerLink="/artists" class="all-artists-link-small"><b>View All Artists</b></a>
     }
 </div>

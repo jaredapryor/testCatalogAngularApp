@@ -1,18 +1,56 @@
 .records-title-header {
-    margin-top: 10px;
-    margin-left: 10px;
     display: flex;
-    align-items: start;
+    align-items: center;
+    background-color: #F0F0F0;
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #CCCCCC;
+    box-shadow: 0 8px 6px -6px black;
 }
 
 .records-title-image {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
     height: 128px;
     width: 128px;
+}
+
+.title-and-links-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .records-title {
     color: #212121;
     font-weight: bold;
-    margin-left: 10px;
+    margin-bottom: 5px;
     font-variant: small-caps;
+}
+
+.header-links {
+    margin-top: 20px;
+}
+
+.artists-link {
+    font-size: 20px;
+    font-variant: small-caps;
+    margin-right: 20px;
+}
+
+.albums-link {
+    font-size: 20px;
+    font-variant: small-caps;
+}
+
+.active-link {
+  color: #007bff;          /* Change text color */
+  font-weight: bold;       /* Make it bold */
+  border-bottom: 3px solid #007bff; /* Add an underline indicator */
+  transition: all 0.3s ease; /* Optional: smooth transition */
 }

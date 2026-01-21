@@ -1,0 +1,86 @@
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.close-icon {
+  font-size: 32px;
+  font-variation-settings:
+    "wght" 600,   // thickness
+    "GRAD" 200,   // grade (extra boldness)
+    "opsz" 48;    // optical size
+}
+
+.album-info-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.delete-message {
+    font-weight: bold;
+    font-style: italic;
+    font-size: larger;
+}
+
+.album-info-details {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin-top: 25px;
+}
+
+.album-info-image {
+    width: 128px;
+    height: 128px;
+    margin-right: 15px;
+}
+
+.album-info-text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.album-info-title {
+    font-weight: bold;
+    font-size: x-large;
+    margin-bottom: 5px;
+}
+
+.album-info-artist {
+    font-size: large;    
+}
+
+.cancel-button {
+    font-size: large;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding: 5px 20px 5px 20px;
+    border-width: 0px;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #9E9E9E;
+}
+
+.confirm-button {
+    font-size: large;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding: 5px 20px 5px 20px;
+    margin-left: 25px;
+    border-width: 0px;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #942828;
+    color: #EFEFEF;
+}
+

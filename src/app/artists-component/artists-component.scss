@@ -10,11 +10,13 @@
     flex-direction: row;
     align-items: center;
     color: #212121;
-}
-
-.all-albums-link {
-    margin-left: 20px;
-    font-size: x-large;
+    background-color: #F0F0F0;
+    margin-bottom: 20px;
+    position: sticky;
+    z-index: 900;
+    top: 150px;
+    border-bottom: 1px solid #CCCCCC;
+    box-shadow: 0 8px 6px -6px black;
 }
 
 .artists-container {
@@ -31,8 +33,4 @@
 
 .no-albums-message-error {
     color: #942828;
-}
-
-.all-albums-link-small {
-    color: #212121;
 }

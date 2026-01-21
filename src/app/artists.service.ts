@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, DestroyRef } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../environments/environment';
 import { Artist } from './artist';
 import { Album } from './album';
+import { DeletionConfirmation } from './deletion';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +13,8 @@ import { Album } from './album';
 export class ArtistsService {
   private artistsUrl = `${environment.apiUrl}/artists`;
   private albumsUrl = `${environment.apiUrl}/albums`;
+  private http = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
 
   protected artistsList: Artist[] = [
     {
@@ -830,5 +836,15 @@ export class ArtistsService {
 
   getAlbumGlobalLocal(globalAlbumId: number): Album | undefined {
     return this.albumsList.find(album => album.globalAlbumId === globalAlbumId);
+  }
+
+  deleteAlbum(artistId: number, albumId: number): Observable<HttpResponse<DeletionConfirmation>> {
+    return this.http.delete<DeletionConfirmation>(`${this.artistsUrl}/${artistId}/${albumId}`, { observe: 'response'})
+      .pipe(takeUntilDestroyed(this.destroyRef));
+  }
+
+  deleteAlbumGlobal(globalAlbumId: number): Observable<HttpResponse<DeletionConfirmation>> {
+    return this.http.delete<DeletionConfirmation>(`${this.albumsUrl}/${globalAlbumId}`, { observe: 'response'})
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 }

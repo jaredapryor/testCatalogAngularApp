@@ -1,0 +1,19 @@
+<div class="dialog-header">
+    <h2 mat-dialog-title style="margin-left: auto; margin-right: auto;">
+        {{ data.albumName !== undefined ? 'Deleted ' + data.albumName : 'Deleted Album' }}
+    </h2>
+
+    <button mat-icon-button mat-dialog-close class="close-button">
+        <span class="material-symbols-rounded close-icon">close</span>
+    </button>
+</div>
+<mat-dialog-content>
+    <div class="deleted-album-info-section">
+        @if (data.albumDeletionMsg !== '') {
+            <span class="deleted-album-message">{{ data.albumDeletionMsg }}</span>
+        }
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button class="ok-button" mat-button mat-dialog-close>OK</button>
+</mat-dialog-actions>

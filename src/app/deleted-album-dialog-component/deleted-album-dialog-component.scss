@@ -1,0 +1,43 @@
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.close-icon {
+  font-size: 32px;
+  font-variation-settings:
+    "wght" 600,   // thickness
+    "GRAD" 200,   // grade (extra boldness)
+    "opsz" 48;    // optical size
+}
+
+.deleted-album-info-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.deleted-album-message {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.ok-button {
+    font-size: large;
+    font-weight: bold;
+    font-variant: small-caps;
+    padding: 5px 20px 5px 20px;
+    border-width: 0px;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #9E9E9E;
+}

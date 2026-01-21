@@ -1,33 +1,35 @@
-@let artistObj = finalArtist();
+@let fArtist = finalArtist();
+@let fAlbums = finalAlbums();
+@let fNumberOfAlbums = finalNumberOfAlbums();
 @let errorMsg = artistErrorMsg();
-@if (condensed && artistObj !== undefined) {
+@if (condensed && fArtist !== undefined) {
     <div class="artist-section">
         <div class="artist-name">
             <img class="artist-image" [src]="artistImageSrc" />
             <div style="display: flex; flex-direction: column; align-items: start;">
-                <a [routerLink]="['/artists', artistObj.artistId]">
-                    <h2 class="artist-name-text">{{ artistObj.artistName }}</h2>
+                <a [routerLink]="['/artists', fArtist.artistId]">
+                    <h2 class="artist-name-text">{{ fArtist.artistName }}</h2>
                 </a>                
                 <div style="display: flex; flex-direction: row; align-items: start;">
                     <img class="artist-country-flag" [src]="artistCountryImageSrc" />
-                    <span class="artist-group-text">{{ artistObj.isGroup ? 'Group' : 'Solo' }}</span>
+                    <span class="artist-group-text">{{ fArtist.isGroup ? 'Group' : 'Solo' }}</span>
                 </div>
             </div>
         </div>
         <div class="artist-details">
-            <div><b>Active since:</b> {{ artistObj.yearStarted }}</div>
-            @if (artistObj.isGroup) {
-                <div><b>Number of Group Members:</b> {{ artistObj.numberOfMembers }}</div>
+            <div><b>Active since:</b> {{ fArtist.yearStarted }}</div>
+            @if (fArtist.isGroup) {
+                <div><b>Number of Group Members:</b> {{ fArtist.numberOfMembers }}</div>
             } @else {
                 <div><b>Solo Act</b></div>
             }
         </div>
-        @if (artistObj.numberOfAlbumsReleased > 0) {
+        @if (fNumberOfAlbums > 0) {
             <div class="artist-albums-section">
-                <div class="artist-albums-section-title">Albums <b>{{ '(' + artistObj.numberOfAlbumsReleased + ')' }}</b></div>
+                <div class="artist-albums-section-title">Albums <b>{{ '(' + fArtist.numberOfAlbumsReleased + ')' }}</b></div>
                 <div class="artist-albums-list">
-                    @for(album of artistObj.albums; track album.albumId) {
-                        <a class="artist-album-name" [routerLink]="['/artists', artistObj.artistId, album.albumId]">
+                    @for(album of fAlbums; track album.albumId) {
+                        <a class="artist-album-name" [routerLink]="['/artists', fArtist.artistId, album.albumId]">
                             <span>{{ album.albumName + ' ' }}<i>{{ '(' + album.publicationYear  + ')' }}</i></span>
                         </a>
                     }
@@ -35,24 +37,24 @@
             </div>
         } 
     </div>
-} @else if (artistObj !== undefined) {
+} @else if (fArtist !== undefined) {
     <div class="artist-section-large">
         <img class="artist-image-large" [src]="artistImageSrc" />
-        <h1 class="artist-name-text-large">{{ artistObj.artistName }}</h1> 
+        <h1 class="artist-name-text-large">{{ fArtist.artistName }}</h1> 
         <div class="artist-details-large">
             <div class="artist-section-country-row">
                 <img class="artist-country-flag-large" [src]="artistCountryImageSrc" />
-                <span><b>Country of Origin: {{ artistObj.countryOfOrigin }}</b></span>
+                <span><b>Country of Origin: {{ fArtist.countryOfOrigin }}</b></span>
             </div>
-            <div class="artist-section-large-space"><b>Active since:</b> {{ artistObj.yearStarted }}</div>
-            @if (artistObj.isGroup) {
-                <div class="artist-section-large-space"><b>Number of Group Members:</b> {{ artistObj.numberOfMembers }}</div>
+            <div class="artist-section-large-space"><b>Active since:</b> {{ fArtist.yearStarted }}</div>
+            @if (fArtist.isGroup) {
+                <div class="artist-section-large-space"><b>Number of Group Members:</b> {{ fArtist.numberOfMembers }}</div>
             } @else {
                 <div class="artist-section-large-space"><b>Solo Act</b></div>
             }
-            <div class="artist-section-large-space"><b>Released Albums:</b> {{ artistObj.numberOfAlbumsReleased }}</div>
+            <div class="artist-section-large-space"><b>Released Albums:</b> {{ fArtist.numberOfAlbumsReleased }}</div>
         </div>        
-        @if (artistObj.numberOfAlbumsReleased > 0) {
+        @if (fNumberOfAlbums > 0) {
             <div class="artist-albums-section-large">
                 <div class="artist-albums-section-title-row-large">
                     <div class="artist-albums-section-title-large">Albums</div>
@@ -62,31 +64,23 @@
                     </label>
                 </div>
                 @if (showAlbums()) {
-                    @for (album of artistObj.albums; track album.albumId) {
-                        <app-album-component [album]="album" [sortedIndex]="$index" [condensed]=true />
+                    @for (album of fAlbums; track album.albumId) {
+                        <app-album-component
+                            [album]="album"
+                            [sortedIndex]="$index"
+                            [condensed]=true
+                            (albumDeletedEvent)="albumDeleted($event)" />
                     }
                 }
             </div>
         }
-        <span class="artists-and-albums-links">
-            <a class="artists-link" routerLink="/artists">All Artists</a>
-            <a class="albums-link" routerLink="/albums">All Albums</a>
-        </span>
     </div>
 } @else if (show404Img()) {
     <div class="artist-not-found-image">
         <img class="artist-not-found-image" src="./assets/404/artistNotFound.png" />
         <h2 class="artist-not-found-message">Artist Id {{ '(' + this.artistId + ')' }} wasn't found!!</h2>                    
-        <span class="artists-and-albums-links shift-right">
-            <a class="artists-link" routerLink="/artists">All Artists</a>
-            <a class="albums-link" routerLink="/albums">All Albums</a>
-        </span>
     </div>
 } @else if (errorMsg !== '') {
     <h2 class="artist-not-found-message">There was a Server Error trying to find Artist Id {{ '(' + this.artistId + ')' }}!!</h2>
     <h3 class="artist-not-found-message">{{ errorMsg }}</h3>
-    <span class="artists-and-albums-links shift-right">
-        <a class="artists-link" routerLink="/artists">All Artists</a>
-        <a class="albums-link" routerLink="/albums">All Albums</a>
-    </span>
 }

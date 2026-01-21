@@ -2,7 +2,9 @@
 @let errorMsg = albumErrorMsg();
 @if (condensed && albumObj !== undefined) {
     <div class="album-section" [class]="albumClass">
-        <img class="album-cd-image" [src]="albumImageSrc" />
+        <div class="album-image-section">
+            <img class="album-cd-image" [src]="albumImageSrc" />
+        </div>
         <div class="album-details">
             <div class="album-details-first-line">
                 <a [routerLink]="['/artists', albumObj.artistId, albumObj.albumId]">
@@ -34,16 +36,20 @@
                 <span><b><i>Num Tracks: </i></b>{{ albumObj.numberOfTracks }}</span>
                 <span><b><i>, Num Singles: </i></b>{{ albumObj.numberOfSingles }}</span>
             </div>
+            @if (showActions) {
+                <div class="button-row-condensed">
+                    <button class="delete-album-button-condensed" (click)="useDeleteOnArtist ? deleteAlbumOnArtist() : deleteAlbum()">Delete Album</button>
+                </div>
+            }
         </div>
     </div>
 } @else if (albumObj !== undefined) {
     <div class="album-full-section">
         <div style="display: flex; flex-direction: column;">
             <img class="album-cd-image-large" [src]="albumImageSrc" />
-            <span class="artists-and-albums-links">
-                <a class="artists-link" routerLink="/artists">All Artists</a>
-                <a class="albums-link" routerLink="/albums">All Albums</a>
-            </span>
+            <div class="button-row">
+                <button class="delete-album-button" (click)="deleteAlbum()">Delete Album</button>
+            </div>
         </div>
         <div class="album-details">
             <div class="album-name-large">{{ albumObj.albumName }}</div>
@@ -76,16 +82,8 @@
     <div class="album-not-found-image">
         <img class="album-not-found-image" src="./assets/404/albumNotFound.png" />
         <h2 class="album-not-found-message">Album Id {{ '(' + this.albumId + ')' }} and Artist Id {{ '(' + this.artistId + ')' }} wasn't found!!</h2>                    
-        <span class="artists-and-albums-links shift-right">
-            <a class="artists-link" routerLink="/artists">All Artists</a>
-            <a class="albums-link" routerLink="/albums">All Albums</a>
-        </span>
     </div>
 } @else if (errorMsg !== '') {
     <h2 class="album-not-found-message">There was a Server Error trying to find Album Id {{ '(' + this.albumId + ')' }} and Artist Id {{ '(' + this.artistId + ')' }}!!</h2>
-    <h3 class="album-not-found-message">{{ errorMsg }}</h3>
-    <span class="artists-and-albums-links shift-right">
-        <a class="artists-link" routerLink="/artists">All Artists</a>
-        <a class="albums-link" routerLink="/albums">All Albums</a>
-    </span>    
+    <h3 class="album-not-found-message">{{ errorMsg }}</h3>  
 }

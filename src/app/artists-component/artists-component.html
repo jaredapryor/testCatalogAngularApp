@@ -2,7 +2,6 @@
     @if (numberOfArtists() > 0) {
         <div class="artists-section-title">
             <h2>Number of Artists: {{ numberOfArtists() }}</h2>
-            <a routerLink="/albums" class="all-albums-link"><b>View All Albums</b></a>
         </div>
         <div class="artists-container" style="margin-top: 10px;">
             @for (artist of artists(); track artist.artistId) {
@@ -15,6 +14,5 @@
         @if (errorMsg !== '') {
             <h3 class="no-albums-message-error">{{ errorMsg }}</h3>
         }
-        <a routerLink="/albums" class="all-albums-link-small"><b>View All Albums</b></a>
     }
 </div>

@@ -1,3 +1,7 @@
+const CERTIFICATION_LEVELS = ["None", "Silver", "Gold", "Platinum", "Multi-Platinum", "Diamond"] as const;
+
+export type CertificationLevel = typeof CERTIFICATION_LEVELS[number];
+
 export interface Album {
     albumId: number,
     globalAlbumId: number,
@@ -14,4 +18,14 @@ export interface Album {
     availableOnStreaming: boolean
 }
 
-export type CertificationLevel = "None" | "Silver" | "Gold" | "Platinum" | "Multi-Platinum" | "Diamond";
+export function isAlbum(obj: any): obj is Album {
+    return (
+        obj && typeof obj.albumId === 'number' && typeof obj.globalAlbumId === 'number' &&
+        typeof obj.artistName === 'string' && typeof obj.artistId === 'number' &&
+        typeof obj.albumName === 'string' && typeof obj.albumImageRandNum === 'number' &&
+        typeof obj.recordLabel === 'string' && typeof obj.publicationYear === 'number' &&
+        typeof obj.albumsSold === 'number' && typeof obj.numberOfSingles === 'number' &&
+        typeof obj.numberOfTracks === 'number' && typeof obj.availableOnStreaming === 'boolean' &&
+        CERTIFICATION_LEVELS.includes(obj.certification)
+    );
+}

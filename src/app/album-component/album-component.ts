@@ -1,9 +1,12 @@
-import { Component, Input, OnInit, inject, signal } from '@angular/core';
+import { Component, Input, Output, OnInit, inject, signal, EventEmitter } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Album } from '../album';
-import { RouterModule } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { AlbumDeleteInfo } from '../deletion';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteAlbumDialogComponent } from '../confirm-delete-album-dialog-component/confirm-delete-album-dialog-component';
 import { ArtistsService } from '../artists.service';
+import { DeletedAlbumDialogComponent } from '../deleted-album-dialog-component/deleted-album-dialog-component';
 
 @Component({
   selector: 'app-album-component',
@@ -17,7 +20,10 @@ export class AlbumComponent implements OnInit {
   @Input() sortedIndex: number = 0;
   @Input() condensed: boolean = false;
   @Input() showArtistName: boolean = false;
+  @Input() showActions: boolean = true;
   @Input() albumClassOverride: string = '';
+  @Input() useDeleteOnArtist: boolean = true;
+  @Output() albumDeletedEvent = new EventEmitter<AlbumDeleteInfo>();
 
   artistsService: ArtistsService = inject(ArtistsService);
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -27,12 +33,13 @@ export class AlbumComponent implements OnInit {
   protected finalAlbum = signal<Album | undefined>(undefined);
   protected show404Img = signal(false);
   protected albumErrorMsg = signal('');
+  protected showConfirmDelteAlbum = signal(false);
   protected albumClass: string = 'dark';
   protected albumImageSrc: string = '';
   protected albumCertImageSrc: string = '';
   protected albumCertImageDesc: string = '';
 
-  constructor() {
+  constructor(private dialog: MatDialog, private router: Router) {
     const artistIdParam = this.route.snapshot.params['artistId'];
     if (artistIdParam !== null && artistIdParam !== undefined) {
       this.artistId = Number(artistIdParam);
@@ -92,6 +99,115 @@ export class AlbumComponent implements OnInit {
         this.show404Img.set(false);
         this.albumErrorMsg.set(e);
         this.finalAlbum.set(undefined);
+      });
+    }
+  }
+
+  protected deleteAlbum(): void {
+    const album = this.finalAlbum();
+    if (album !== undefined) {
+      // Add Modal Dialog to confirm deletion
+      const dialogRef = this.dialog.open(ConfirmDeleteAlbumDialogComponent, {
+        data: {
+          albumName: album.albumName,
+          artistName: album.artistName,
+          publicationYear: album.publicationYear,
+          albumImageSrc: this.albumImageSrc
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === true) {
+          console.log("Deleting album - Global Album Id", album.globalAlbumId);
+          this.artistsService.deleteAlbumGlobal(album.globalAlbumId).subscribe({
+            next: (resp) => {
+              console.log("Deletion was succesful: " + JSON.stringify(resp));
+              if (resp.body && resp.body.deleted) {
+                const msg = resp.body.message;
+                const albumName = resp.body.album?.albumName;
+                const albumId = resp.body.album?.albumId;
+                const globalAlbumId = resp.body.album?.globalAlbumId;
+                const artistId = resp.body.album?.artistId;
+                
+                const dialogRef2 = this.dialog.open(DeletedAlbumDialogComponent, {
+                  data: {
+                    albumDeletionMsg: msg,
+                    albumName: albumName
+                  }
+                });
+
+                dialogRef2.afterClosed().subscribe(() => {
+                  if (this.condensed) {
+                    const deletedAlbum = resp.body?.album;
+                    this.albumDeletedEvent.emit({
+                      albumId: albumId,
+                      globalAlbumId: globalAlbumId,
+                      artistId: artistId 
+                    });
+                  } else {                  
+                    this.router.navigate(["/albums"]);
+                  }
+                });
+              } else {
+                this.router.navigate(["/albums"]);
+              }
+            }, 
+            error: (err) => {
+              console.log("Deletion wasn't successful: ", err);
+              this.router.navigate(["/albums"]);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  protected deleteAlbumOnArtist(): void {
+    const album = this.finalAlbum();
+    if (album !== undefined) {
+      // Add Modal Dialog to confirm deletion
+      const dialogRef = this.dialog.open(ConfirmDeleteAlbumDialogComponent, {
+        data: {
+          albumName: album.albumName,
+          artistName: album.artistName,
+          publicationYear: album.publicationYear,
+          albumImageSrc: this.albumImageSrc
+        }
+      });
+     
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log(`Deleting album - Album Id: (${album.albumId}), Artist Id: (${album.artistId})`);
+          this.artistsService.deleteAlbum(album.artistId, album.albumId).subscribe({
+            next: (resp) => {
+              console.log("Deletion was succesful: " + JSON.stringify(resp));
+              if (resp.body && resp.body.deleted) {
+                const msg = resp.body.message;
+                const albumName = resp.body.album?.albumName;
+                const albumId = resp.body.album?.albumId;
+                const globalAlbumId = resp.body.album?.globalAlbumId;
+                const artistId = resp.body.album?.artistId;
+
+                const dialogRef2 = this.dialog.open(DeletedAlbumDialogComponent, {
+                  data: {
+                    albumDeletionMsg: msg,
+                    albumName: albumName
+                  }
+                });
+
+                dialogRef2.afterClosed().subscribe(() => {
+                  this.albumDeletedEvent.emit({
+                      albumId: albumId,
+                      globalAlbumId: globalAlbumId,
+                      artistId: artistId 
+                    });
+                });
+              } else {
+                this.router.navigate(["/artists", album.artistId]);
+              }
+            }
+          });
+        }
       });
     }
   }
