@@ -5,6 +5,16 @@
     align-items: start;
 }
 
+:host-context(.albums-container) {
+    display: block;
+    height: 100%;
+}
+
+:host-context(.albums-container) .album-section {
+    height: 100%;
+    box-sizing: border-box;
+}
+
 .album-section.dark {
     background-color: #9E9E9E;
 }
@@ -120,6 +130,11 @@
 }
 
 .album-details-fifth-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.album-details-sixth-line {
     display: flex;
     flex-direction: row;
 }

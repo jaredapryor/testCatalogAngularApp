@@ -1,8 +1,14 @@
+@if (numberOfAlbums() > 0) {
+    <div class="albums-section-title">
+        <h2>Number of Albums: {{ numberOfAlbums() }}</h2>
+    </div>
+}
+
 <div class="albums-section">
     @if (numberOfAlbums() > 0) {
-        <div class="albums-section-title">
+        <!--<div class="albums-section-title">
             <h2>Number of Albums: {{ numberOfAlbums() }}</h2>
-        </div>
+        </div>-->
         <div class="albums-container">
             @for (album of albums(); track album.globalAlbumId) {
                 <app-album-component

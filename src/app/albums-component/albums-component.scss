@@ -3,6 +3,8 @@
     padding: 10px 25px 10px 25px;
     border-radius: 5px 5px 5px 5px;
     margin-bottom: 10px;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .albums-section-title {
@@ -11,20 +13,26 @@
     align-items: center;
     color: #212121;
     background-color: #F0F0F0;
+    margin-left: 10px;
     margin-bottom: 20px;
     position: sticky;
     z-index: 900;
-    top: 150px;
-    border-bottom: 1px solid #CCCCCC;
-    box-shadow: 0 8px 6px -6px black;
+    top: 0px;
+    /*border-bottom: 1px solid #CCCCCC;
+    box-shadow: 0 8px 6px -6px black;*/
 }
 
 .albums-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: 1fr;
-    column-gap: 1%;
-    row-gap: 1%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    column-gap: 12px;
+    row-gap: 12px;
+
+    app-album-component {
+        min-width: 0;
+        height: 100%;
+    }
 }
 
 .no-albums-message {
